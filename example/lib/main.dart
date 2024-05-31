@@ -31,8 +31,8 @@ class HomeScreen extends StatelessWidget {
           onPressed: () async {
             final result = await OSKKey.show(
               hintText: "test",
-              initialValue: "aaaaaaa",
-              label: "label",
+              /*  initialValue: "aaaaaaa",
+              label: "label", */
               type: OSKKeyInputType.name,
             );
             print(result);

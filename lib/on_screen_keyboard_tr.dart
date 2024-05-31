@@ -1536,7 +1536,7 @@ class _OSKKeyScreenState extends State<OSKKeyScreen> {
     label = widget.label ?? "";
     hintText = widget.hintText ?? "";
     type = OSKKeyInputType.text;
-    initialValue = widget.initialValue;
+    initialValue = widget.initialValue ?? "";
     oskKeyController = Get.put(
         OSKKeyController(
           inputType: type,
