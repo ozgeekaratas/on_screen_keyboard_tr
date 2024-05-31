@@ -1,10 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-enum OnScreenKeyboardInputType {
+enum OSKKeyInputType {
   text,
   name,
   email,
@@ -30,11 +29,11 @@ enum OSKType {
   specialCharacters,
 }
 
-class OskData {
-  static final List<OskKeyModel> keys = [
+class OSKKeyData {
+  static final List<OSKKeyModel> keys = [
 //#region 0-0
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 0,
       keyType: KeyType.character,
@@ -43,7 +42,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 0,
       keyType: KeyType.character,
@@ -51,7 +50,7 @@ class OskData {
       display: "Q",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 0,
       keyType: KeyType.character,
@@ -59,7 +58,7 @@ class OskData {
       display: "1",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 0,
       keyType: KeyType.character,
@@ -71,7 +70,7 @@ class OskData {
     //#endregion
 
 //#region 0-1
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 1,
       keyType: KeyType.character,
@@ -80,7 +79,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 1,
       keyType: KeyType.character,
@@ -88,7 +87,7 @@ class OskData {
       display: "W",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 1,
       keyType: KeyType.character,
@@ -96,7 +95,7 @@ class OskData {
       display: "2",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 1,
       keyType: KeyType.character,
@@ -106,7 +105,7 @@ class OskData {
     ),
 //#endregion
 //#region 0-2
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 2,
       keyType: KeyType.character,
@@ -115,7 +114,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 2,
       keyType: KeyType.character,
@@ -123,7 +122,7 @@ class OskData {
       display: "E",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 2,
       keyType: KeyType.character,
@@ -131,7 +130,7 @@ class OskData {
       display: "3",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 2,
       keyType: KeyType.character,
@@ -142,7 +141,7 @@ class OskData {
 //#endregion
 
 //#region 0-3
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 3,
       keyType: KeyType.character,
@@ -151,7 +150,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 3,
       keyType: KeyType.character,
@@ -159,7 +158,7 @@ class OskData {
       display: "R",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 3,
       keyType: KeyType.character,
@@ -167,7 +166,7 @@ class OskData {
       display: "4",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 3,
       keyType: KeyType.character,
@@ -177,7 +176,7 @@ class OskData {
     ),
 //#endregion
 //#region 0-4
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 4,
       keyType: KeyType.character,
@@ -186,7 +185,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 4,
       keyType: KeyType.character,
@@ -194,7 +193,7 @@ class OskData {
       display: "T",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 4,
       keyType: KeyType.character,
@@ -202,7 +201,7 @@ class OskData {
       display: "5",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 4,
       keyType: KeyType.character,
@@ -212,7 +211,7 @@ class OskData {
     ),
 //#endregion
 //#region 0-5
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 5,
       keyType: KeyType.character,
@@ -221,7 +220,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 5,
       keyType: KeyType.character,
@@ -229,7 +228,7 @@ class OskData {
       display: "Y",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 5,
       keyType: KeyType.character,
@@ -237,7 +236,7 @@ class OskData {
       display: "6",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 5,
       keyType: KeyType.character,
@@ -248,7 +247,7 @@ class OskData {
 //#endregion
 
 //#region 0-6
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 6,
       keyType: KeyType.character,
@@ -257,7 +256,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 6,
       keyType: KeyType.character,
@@ -265,7 +264,7 @@ class OskData {
       display: "U",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 6,
       keyType: KeyType.character,
@@ -273,7 +272,7 @@ class OskData {
       display: "7",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 6,
       keyType: KeyType.character,
@@ -283,7 +282,7 @@ class OskData {
     ),
 //#endregion
 //#region 0-7
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 7,
       keyType: KeyType.character,
@@ -292,7 +291,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 7,
       keyType: KeyType.character,
@@ -300,7 +299,7 @@ class OskData {
       display: "I",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 7,
       keyType: KeyType.character,
@@ -308,7 +307,7 @@ class OskData {
       display: "8",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 7,
       keyType: KeyType.character,
@@ -319,7 +318,7 @@ class OskData {
 //#endregion
 
 //#region 0-8
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 8,
       keyType: KeyType.character,
@@ -328,7 +327,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 8,
       keyType: KeyType.character,
@@ -336,7 +335,7 @@ class OskData {
       display: "O",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 8,
       keyType: KeyType.character,
@@ -344,7 +343,7 @@ class OskData {
       display: "9",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 8,
       keyType: KeyType.character,
@@ -355,7 +354,7 @@ class OskData {
 //#endregion
 
 //#region 0-9
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 9,
       keyType: KeyType.character,
@@ -364,7 +363,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 9,
       keyType: KeyType.character,
@@ -372,7 +371,7 @@ class OskData {
       display: "P",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 9,
       keyType: KeyType.character,
@@ -380,7 +379,7 @@ class OskData {
       display: "0",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 9,
       keyType: KeyType.character,
@@ -391,7 +390,7 @@ class OskData {
 //#endregion
 
 //#region 0-10
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 10,
       keyType: KeyType.character,
@@ -400,7 +399,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 10,
       keyType: KeyType.character,
@@ -408,7 +407,7 @@ class OskData {
       display: "Ğ",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 10,
       keyType: KeyType.character,
@@ -416,7 +415,7 @@ class OskData {
       display: "!",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 10,
       keyType: KeyType.character,
@@ -427,7 +426,7 @@ class OskData {
 //#endregion
 
 //#region 0-11
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 11,
       keyType: KeyType.character,
@@ -436,7 +435,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 11,
       keyType: KeyType.character,
@@ -444,7 +443,7 @@ class OskData {
       display: "Ü",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 11,
       keyType: KeyType.character,
@@ -452,7 +451,7 @@ class OskData {
       display: "?",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 0,
       column: 11,
       keyType: KeyType.character,
@@ -464,7 +463,7 @@ class OskData {
 
 //#region 1-0
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 0,
       keyType: KeyType.character,
@@ -473,7 +472,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 0,
       keyType: KeyType.character,
@@ -481,7 +480,7 @@ class OskData {
       display: "A",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 0,
       keyType: KeyType.character,
@@ -489,7 +488,7 @@ class OskData {
       display: "@",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 0,
       keyType: KeyType.character,
@@ -501,7 +500,7 @@ class OskData {
 
 //#region 1-1
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 1,
       keyType: KeyType.character,
@@ -510,7 +509,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 1,
       keyType: KeyType.character,
@@ -518,7 +517,7 @@ class OskData {
       display: "S",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 1,
       keyType: KeyType.character,
@@ -526,7 +525,7 @@ class OskData {
       display: "#",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 1,
       keyType: KeyType.character,
@@ -538,7 +537,7 @@ class OskData {
 
 //#region 1-2
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 2,
       keyType: KeyType.character,
@@ -547,7 +546,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 2,
       keyType: KeyType.character,
@@ -555,7 +554,7 @@ class OskData {
       display: "D",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 2,
       keyType: KeyType.character,
@@ -563,7 +562,7 @@ class OskData {
       display: "\$",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 2,
       keyType: KeyType.character,
@@ -575,7 +574,7 @@ class OskData {
 
 //#region 1-3
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 3,
       keyType: KeyType.character,
@@ -584,7 +583,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 3,
       keyType: KeyType.character,
@@ -592,7 +591,7 @@ class OskData {
       display: "F",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 3,
       keyType: KeyType.character,
@@ -600,7 +599,7 @@ class OskData {
       display: "&",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 3,
       keyType: KeyType.character,
@@ -612,7 +611,7 @@ class OskData {
 
 //#region 1-4
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 4,
       keyType: KeyType.character,
@@ -621,7 +620,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 4,
       keyType: KeyType.character,
@@ -629,7 +628,7 @@ class OskData {
       display: "G",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 4,
       keyType: KeyType.character,
@@ -637,7 +636,7 @@ class OskData {
       display: "*",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 4,
       keyType: KeyType.character,
@@ -649,7 +648,7 @@ class OskData {
 
 //#region 1-5
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 5,
       keyType: KeyType.character,
@@ -658,7 +657,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 5,
       keyType: KeyType.character,
@@ -666,7 +665,7 @@ class OskData {
       display: "H",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 5,
       keyType: KeyType.character,
@@ -674,7 +673,7 @@ class OskData {
       display: "(",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 5,
       keyType: KeyType.character,
@@ -686,7 +685,7 @@ class OskData {
 
 //#region 1-6
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 6,
       keyType: KeyType.character,
@@ -695,7 +694,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 6,
       keyType: KeyType.character,
@@ -703,7 +702,7 @@ class OskData {
       display: "J",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 6,
       keyType: KeyType.character,
@@ -711,7 +710,7 @@ class OskData {
       display: ")",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 6,
       keyType: KeyType.character,
@@ -722,7 +721,7 @@ class OskData {
 //#endregion
 //#region 1-7
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 7,
       keyType: KeyType.character,
@@ -731,7 +730,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 7,
       keyType: KeyType.character,
@@ -739,7 +738,7 @@ class OskData {
       display: "K",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 7,
       keyType: KeyType.character,
@@ -747,7 +746,7 @@ class OskData {
       display: "'",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 7,
       keyType: KeyType.character,
@@ -759,7 +758,7 @@ class OskData {
 
 //#region 1-8
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 8,
       keyType: KeyType.character,
@@ -768,7 +767,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 8,
       keyType: KeyType.character,
@@ -776,7 +775,7 @@ class OskData {
       display: "L",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 8,
       keyType: KeyType.character,
@@ -784,7 +783,7 @@ class OskData {
       display: "\"",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 8,
       keyType: KeyType.character,
@@ -796,7 +795,7 @@ class OskData {
 
 //#region 1-9
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 9,
       keyType: KeyType.character,
@@ -805,7 +804,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 9,
       keyType: KeyType.character,
@@ -813,7 +812,7 @@ class OskData {
       display: "Ş ",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 9,
       keyType: KeyType.character,
@@ -821,7 +820,7 @@ class OskData {
       display: "≠",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 9,
       keyType: KeyType.character,
@@ -832,7 +831,7 @@ class OskData {
 //#endregion
 //#region 1-10
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 10,
       keyType: KeyType.character,
@@ -841,7 +840,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 10,
       keyType: KeyType.character,
@@ -849,7 +848,7 @@ class OskData {
       display: "İ ",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 10,
       keyType: KeyType.character,
@@ -857,7 +856,7 @@ class OskData {
       display: "‴",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 1,
       column: 10,
       keyType: KeyType.character,
@@ -869,7 +868,7 @@ class OskData {
 
 //#region 2-0
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 0,
       keyType: KeyType.character,
@@ -878,7 +877,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 0,
       keyType: KeyType.character,
@@ -886,7 +885,7 @@ class OskData {
       display: "Z",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 0,
       keyType: KeyType.character,
@@ -894,7 +893,7 @@ class OskData {
       display: "%",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 0,
       keyType: KeyType.character,
@@ -905,7 +904,7 @@ class OskData {
 //#endregion
 //#region 2-1
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 1,
       keyType: KeyType.character,
@@ -914,7 +913,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 1,
       keyType: KeyType.character,
@@ -922,7 +921,7 @@ class OskData {
       display: "X",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 1,
       keyType: KeyType.character,
@@ -930,7 +929,7 @@ class OskData {
       display: "_",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 1,
       keyType: KeyType.character,
@@ -942,7 +941,7 @@ class OskData {
 
 //#region 2-2
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 2,
       keyType: KeyType.character,
@@ -951,7 +950,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 2,
       keyType: KeyType.character,
@@ -959,7 +958,7 @@ class OskData {
       display: "C",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 2,
       keyType: KeyType.character,
@@ -967,7 +966,7 @@ class OskData {
       display: "+",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 2,
       keyType: KeyType.character,
@@ -979,7 +978,7 @@ class OskData {
 
 //#region 2-3
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 3,
       keyType: KeyType.character,
@@ -988,7 +987,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 3,
       keyType: KeyType.character,
@@ -996,7 +995,7 @@ class OskData {
       display: "V",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 3,
       keyType: KeyType.character,
@@ -1004,7 +1003,7 @@ class OskData {
       display: "=",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 3,
       keyType: KeyType.character,
@@ -1016,7 +1015,7 @@ class OskData {
 
 //#region 2-4
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 4,
       keyType: KeyType.character,
@@ -1025,7 +1024,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 4,
       keyType: KeyType.character,
@@ -1033,7 +1032,7 @@ class OskData {
       display: "B",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 4,
       keyType: KeyType.character,
@@ -1041,7 +1040,7 @@ class OskData {
       display: "/",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 4,
       keyType: KeyType.character,
@@ -1053,7 +1052,7 @@ class OskData {
 
 //#region 2-5
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 5,
       keyType: KeyType.character,
@@ -1062,7 +1061,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 5,
       keyType: KeyType.character,
@@ -1070,7 +1069,7 @@ class OskData {
       display: "N",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 5,
       keyType: KeyType.character,
@@ -1078,7 +1077,7 @@ class OskData {
       display: ";",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 5,
       keyType: KeyType.character,
@@ -1090,7 +1089,7 @@ class OskData {
 
 //#region 2-6
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 6,
       keyType: KeyType.character,
@@ -1099,7 +1098,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 6,
       keyType: KeyType.character,
@@ -1107,7 +1106,7 @@ class OskData {
       display: "M",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 6,
       keyType: KeyType.character,
@@ -1115,7 +1114,7 @@ class OskData {
       display: ":",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 6,
       keyType: KeyType.character,
@@ -1127,7 +1126,7 @@ class OskData {
 
 //#region 2-7
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 7,
       keyType: KeyType.character,
@@ -1136,7 +1135,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 7,
       keyType: KeyType.character,
@@ -1144,7 +1143,7 @@ class OskData {
       display: "Ö",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 7,
       keyType: KeyType.character,
@@ -1152,7 +1151,7 @@ class OskData {
       display: ",",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 7,
       keyType: KeyType.character,
@@ -1164,7 +1163,7 @@ class OskData {
 
 //#region 2-8
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 8,
       keyType: KeyType.character,
@@ -1173,7 +1172,7 @@ class OskData {
       layoutType: OSKType.lowerCase,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 8,
       keyType: KeyType.character,
@@ -1181,7 +1180,7 @@ class OskData {
       display: "Ç",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 8,
       keyType: KeyType.character,
@@ -1189,7 +1188,7 @@ class OskData {
       display: "-",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 8,
       keyType: KeyType.character,
@@ -1200,7 +1199,7 @@ class OskData {
 //#endregion
 
 //#region 2-9
-    OskKeyModel(
+    OSKKeyModel(
       row: 2,
       column: 9,
       keyType: KeyType.backspace,
@@ -1210,63 +1209,63 @@ class OskData {
 //#endregion
 
 //#region row-3
-    OskKeyModel(
+    OSKKeyModel(
       row: 3,
       column: 4,
       keyType: KeyType.enter,
       display: Icons.subdirectory_arrow_left,
       layoutType: OSKType.all,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 3,
       column: 0,
       keyType: KeyType.shift,
       display: Icons.arrow_upward_outlined,
       layoutType: OSKType.lowerCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 3,
       column: 0,
       keyType: KeyType.shift,
       display: Icons.arrow_downward,
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 3,
       column: 0,
       keyType: KeyType.shift,
       display: "#+=",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 3,
       column: 0,
       keyType: KeyType.shift,
       display: "123",
       layoutType: OSKType.specialCharacters,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 3,
       column: 1,
       keyType: KeyType.alt,
       display: ".?123",
       layoutType: OSKType.upperCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 3,
       column: 1,
       keyType: KeyType.alt,
       display: ".?123",
       layoutType: OSKType.lowerCase,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 3,
       column: 1,
       keyType: KeyType.alt,
       display: "ABC",
       layoutType: OSKType.numbers,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 3,
       column: 1,
       keyType: KeyType.alt,
@@ -1274,14 +1273,14 @@ class OskData {
       layoutType: OSKType.specialCharacters,
     ),
 
-    OskKeyModel(
+    OSKKeyModel(
       row: 3,
       column: 3,
       keyType: KeyType.space,
       display: Icons.space_bar,
       layoutType: OSKType.all,
     ),
-    OskKeyModel(
+    OSKKeyModel(
       row: 3,
       column: 5,
       keyType: KeyType.hideKeyboard,
@@ -1292,7 +1291,7 @@ class OskData {
   ];
 }
 
-class OskKeyModel {
+class OSKKeyModel {
   int row;
   int column;
   KeyType keyType;
@@ -1301,7 +1300,7 @@ class OskKeyModel {
   OSKType layoutType;
   bool isNumber;
 
-  OskKeyModel({
+  OSKKeyModel({
     required this.row,
     required this.column,
     required this.keyType,
@@ -1312,19 +1311,21 @@ class OskKeyModel {
   });
 }
 
-class OskKeyController extends GetxController {
-  final OnScreenKeyboardInputType inputType;
+class OSKKeyController extends GetxController {
+  final OSKKeyInputType inputType;
   final String initialValue;
   final String label;
   final bool numberOnly;
+  final String hintText;
   final _layoutType = OSKType.lowerCase.obs;
   final _currentText = ''.obs;
   final _isShiftActive = false.obs;
 
-  OskKeyController({
+  OSKKeyController({
     required this.inputType,
     required this.initialValue,
     required this.label,
+    required this.hintText,
     required this.numberOnly,
   }) {
     _currentText.value = initialValue;
@@ -1334,8 +1335,8 @@ class OskKeyController extends GetxController {
   OSKType get layoutType => _layoutType.value;
   bool get isShiftActive => _isShiftActive.value;
 
-  List<OskKeyModel> get filteredKeys {
-    return OskData.keys.where((key) {
+  List<OSKKeyModel> get filteredKeys {
+    return OSKKeyData.keys.where((key) {
       if (numberOnly &&
           (key.keyType == KeyType.alt || key.keyType == KeyType.shift)) {
         return false;
@@ -1344,12 +1345,12 @@ class OskKeyController extends GetxController {
     }).toList();
   }
 
-  List<OskKeyModel> getKeys({
+  List<OSKKeyModel> getKeys({
     required OSKType layouttype,
     required int row,
     required int column,
   }) {
-    return OskData.keys
+    return OSKKeyData.keys
         .where((element) =>
             (element.layoutType == layouttype ||
                 element.layoutType == OSKType.all) &&
@@ -1420,11 +1421,11 @@ class OskKeyController extends GetxController {
   }
 }
 
-class OskKeyWidget extends StatelessWidget {
-  final OskKeyModel model;
+class OSKKeyyWidget extends StatelessWidget {
+  final OSKKeyModel model;
   final GestureTapCallback? onTap;
 
-  const OskKeyWidget({
+  const OSKKeyyWidget({
     super.key,
     required this.model,
     this.onTap,
@@ -1503,41 +1504,48 @@ class OskKeyWidget extends StatelessWidget {
   }
 }
 
-class OskKeyboard extends StatefulWidget {
-  OnScreenKeyboardInputType inputType;
-  String label;
+class OSKKeyScreen extends StatefulWidget {
+  final OSKKeyInputType inputType;
+  final String? label;
+  final dynamic initialValue;
+  final String? hintText;
 
-  OskKeyboard({
+  const OSKKeyScreen({
     super.key,
-    required this.inputType,
-    required this.label,
+    this.inputType = OSKKeyInputType.text,
+    this.label,
+    this.initialValue,
+    this.hintText,
   });
 
   @override
-  State<OskKeyboard> createState() => _OskKeyboardState();
+  State<OSKKeyScreen> createState() {
+    return _OSKKeyScreenState();
+  }
 }
 
-class _OskKeyboardState extends State<OskKeyboard> {
-  late OskKeyController oskKeyController;
-  String text = "";
-  late String initialValue;
-  late bool numberOnly;
-
+class _OSKKeyScreenState extends State<OSKKeyScreen> {
+  late OSKKeyController oskKeyController;
+  late String label;
+  late String hintText;
+  late OSKKeyInputType type;
+  late dynamic initialValue;
   @override
   void initState() {
     super.initState();
-    String inputTypeString = Get.parameters["inputType"] ?? "";
-    widget.inputType = OnScreenKeyboardInputType.values.firstWhere(
-        (e) => e.toString() == 'OnScreenKeyboardInputType.$inputTypeString',
-        orElse: () => OnScreenKeyboardInputType.text);
-    widget.label = Get.parameters["label"] ?? "";
-    numberOnly = Get.parameters["numberOnly"] == "true";
-    initialValue = Get.parameters["initialValue"] ?? "";
-    oskKeyController = Get.put(OskKeyController(
-        inputType: widget.inputType,
-        label: widget.label,
-        initialValue: initialValue,
-        numberOnly: numberOnly));
+    label = widget.label ?? "";
+    hintText = widget.hintText ?? "";
+    type = OSKKeyInputType.text;
+    initialValue = widget.initialValue;
+    oskKeyController = Get.put(
+        OSKKeyController(
+          inputType: type,
+          label: label,
+          initialValue: initialValue,
+          hintText: hintText,
+          numberOnly: type == OSKKeyInputType.number,
+        ),
+        permanent: false);
   }
 
   void _onKeyTap(String value, KeyType type) {
@@ -1550,7 +1558,7 @@ class _OskKeyboardState extends State<OskKeyboard> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<OskKeyController>(
+    return GetBuilder<OSKKeyController>(
       builder: (oskKeyController) {
         return Scaffold(
           backgroundColor: Colors.white,
@@ -1570,7 +1578,7 @@ class _OskKeyboardState extends State<OskKeyboard> {
                     child: Padding(
                       padding: const EdgeInsets.all(12),
                       child: Text(
-                        widget.label,
+                        label,
                         style: const TextStyle(
                             fontSize: 22, color: Colors.black54),
                       ),
@@ -1603,7 +1611,7 @@ class _OskKeyboardState extends State<OskKeyboard> {
                           )
                               .map(
                             (key) {
-                              return OskKeyWidget(
+                              return OSKKeyyWidget(
                                 model: key,
                                 onTap: () {
                                   _onKeyTap(
@@ -1622,6 +1630,24 @@ class _OskKeyboardState extends State<OskKeyboard> {
           ),
         );
       },
+    );
+  }
+}
+
+class OSKKey {
+  static Future<dynamic> show({
+    dynamic initialValue,
+    String? label,
+    OSKKeyInputType type = OSKKeyInputType.text,
+    String? hintText,
+  }) async {
+    return await Get.to(
+      () => OSKKeyScreen(
+        hintText: hintText,
+        initialValue: initialValue,
+        inputType: type,
+        label: label,
+      ),
     );
   }
 }
