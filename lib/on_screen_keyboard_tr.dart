@@ -1591,7 +1591,9 @@ class _OSKKeyScreenState extends State<OSKKeyScreen> {
                       child: Padding(
                         padding: const EdgeInsets.all(12),
                         child: Text(
-                          oskKeyController.currentText,
+                          oskKeyController.currentText.isEmpty
+                              ? hintText
+                              : oskKeyController.currentText,
                           style: const TextStyle(
                               fontSize: 32, color: Colors.black),
                         ),
