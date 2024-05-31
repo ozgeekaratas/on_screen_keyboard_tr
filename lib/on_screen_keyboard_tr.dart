@@ -1594,8 +1594,11 @@ class _OSKKeyScreenState extends State<OSKKeyScreen> {
                           oskKeyController.currentText.isEmpty
                               ? hintText
                               : oskKeyController.currentText,
-                          style: const TextStyle(
-                              fontSize: 32, color: Colors.black),
+                          style: TextStyle(
+                              fontSize: 22,
+                              color: oskKeyController.currentText.isEmpty
+                                  ? Colors.black.withOpacity(0.8)
+                                  : Colors.black),
                         ),
                       ),
                     ),
