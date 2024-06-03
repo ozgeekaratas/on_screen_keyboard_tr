@@ -1,12 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 enum OSKKeyInputType {
   text,
   name,
-  email,
+  email, //
   alphanumeric,
   number,
 }
@@ -1424,12 +1426,10 @@ class OSKKeyController extends GetxController {
 class OSKKeyyWidget extends StatelessWidget {
   final OSKKeyModel model;
   final GestureTapCallback? onTap;
+  final BuildContext ctx;
 
-  const OSKKeyyWidget({
-    super.key,
-    required this.model,
-    this.onTap,
-  });
+  const OSKKeyyWidget(
+      {super.key, required this.model, this.onTap, required this.ctx});
 
   @override
   Widget build(BuildContext context) {
@@ -1437,7 +1437,8 @@ class OSKKeyyWidget extends StatelessWidget {
     if (model.display is String) {
       child = Text(
         model.display as String,
-        style: const TextStyle(fontSize: 25),
+        style: TextStyle(
+            fontSize: 25, color: Theme.of(ctx).textTheme.titleMedium?.color),
       );
     } else if (model.display is IconData) {
       child = Icon(
@@ -1455,32 +1456,42 @@ class OSKKeyyWidget extends StatelessWidget {
       case KeyType.hideKeyboard:
         width = 90;
         height = 57;
-        color = Colors.blueGrey.withOpacity(0.4);
+        color = Theme.of(ctx).hoverColor.withOpacity(0.3);
       case KeyType.shift:
       case KeyType.alt:
         width = 90;
         height = 57;
-        color = Colors.blueGrey.withOpacity(0.4);
+        color = Theme.of(ctx).hoverColor.withOpacity(0.3);
+
         break;
       case KeyType.backspace:
         width = 185;
         height = 57;
-        color = Colors.blueGrey.withOpacity(0.4);
+        color = Theme.of(ctx).hoverColor.withOpacity(0.3);
+
         break;
       case KeyType.space:
         width = 410;
         height = 57;
-        color = Colors.white.withOpacity(0.7);
+        color = Get.isDarkMode
+            ? Theme.of(ctx).dividerColor.withOpacity(0.7)
+            : Theme.of(context).dividerColor.withOpacity(0.2);
         break;
       case KeyType.character:
         width = 60.5;
         height = 57;
-        color = Colors.white.withOpacity(0.7);
+        color = Get.isDarkMode
+            ? Theme.of(ctx).dividerColor.withOpacity(0.7)
+            : Theme.of(context).dividerColor.withOpacity(0.2);
+
         break;
       default:
         width = 60;
         height = 57;
-        color = Colors.white;
+        color = Get.isDarkMode
+            ? Theme.of(ctx).hintColor.withOpacity(0.5)
+            : Theme.of(ctx).hintColor.withOpacity(0.1);
+
         break;
     }
 
@@ -1509,14 +1520,15 @@ class OSKKeyScreen extends StatefulWidget {
   final String? label;
   final dynamic initialValue;
   final String? hintText;
+  final BuildContext ctx;
 
-  const OSKKeyScreen({
-    super.key,
-    this.inputType = OSKKeyInputType.text,
-    this.label,
-    this.initialValue,
-    this.hintText,
-  });
+  const OSKKeyScreen(
+      {super.key,
+      this.inputType = OSKKeyInputType.text,
+      this.label,
+      this.initialValue,
+      this.hintText,
+      required this.ctx});
 
   @override
   State<OSKKeyScreen> createState() {
@@ -1530,6 +1542,9 @@ class _OSKKeyScreenState extends State<OSKKeyScreen> {
   late String hintText;
   late OSKKeyInputType type;
   late dynamic initialValue;
+
+  double cursorOpacity = 0;
+  late Timer cursorTimer;
   @override
   void initState() {
     super.initState();
@@ -1546,6 +1561,23 @@ class _OSKKeyScreenState extends State<OSKKeyScreen> {
           numberOnly: type == OSKKeyInputType.number,
         ),
         permanent: false);
+
+    runCursorOpacity();
+  }
+
+  @override
+  void dispose() {
+    cursorTimer.cancel();
+    super.dispose();
+  }
+
+  runCursorOpacity() {
+    cursorTimer = Timer.periodic(const Duration(milliseconds: 150), (t) {
+      if (!widget.ctx.mounted) return;
+      setState(() {
+        cursorOpacity = cursorOpacity == 0.8 ? 1 : 0;
+      });
+    });
   }
 
   void _onKeyTap(String value, KeyType type) {
@@ -1561,7 +1593,7 @@ class _OSKKeyScreenState extends State<OSKKeyScreen> {
     return GetBuilder<OSKKeyController>(
       builder: (oskKeyController) {
         return Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(widget.ctx).canvasColor,
           body: Stack(
             children: [
               Container(
@@ -1572,33 +1604,51 @@ class _OSKKeyScreenState extends State<OSKKeyScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Container(
+                  SizedBox(
                     width: double.infinity,
-                    color: Colors.white.withOpacity(0.8),
                     child: Padding(
                       padding: const EdgeInsets.all(12),
                       child: Text(
                         label,
-                        style: const TextStyle(
-                            fontSize: 22, color: Colors.black54),
+                        style: TextStyle(
+                            fontSize: 22,
+                            color: Theme.of(widget.ctx)
+                                .textTheme
+                                .labelMedium!
+                                .color
+                                ?.withOpacity(0.60)),
                       ),
                     ),
                   ),
                   Expanded(
-                    child: Container(
+                    child: SizedBox(
                       width: double.infinity,
-                      color: Colors.white.withOpacity(0.8),
                       child: Padding(
                         padding: const EdgeInsets.all(12),
-                        child: Text(
-                          oskKeyController.currentText.isEmpty
-                              ? hintText
-                              : oskKeyController.currentText,
-                          style: TextStyle(
-                              fontSize: 22,
-                              color: oskKeyController.currentText.isEmpty
-                                  ? Colors.black.withOpacity(0.8)
-                                  : Colors.black),
+                        child: Row(
+                          children: [
+                            Text(
+                              oskKeyController.currentText.isEmpty
+                                  ? hintText
+                                  : oskKeyController.currentText,
+                              style: TextStyle(
+                                  fontSize: 22,
+                                  color: Theme.of(widget.ctx)
+                                      .textTheme
+                                      .labelMedium!
+                                      .color),
+                            ),
+                            AnimatedOpacity(
+                              opacity: cursorOpacity,
+                              duration: const Duration(milliseconds: 100),
+                              child: const Text(
+                                "|",
+                                style: TextStyle(
+                                    fontSize: 22, color: Colors.yellow),
+                              ),
+                            ),
+                            Expanded(child: Container())
+                          ],
                         ),
                       ),
                     ),
@@ -1617,6 +1667,7 @@ class _OSKKeyScreenState extends State<OSKKeyScreen> {
                               .map(
                             (key) {
                               return OSKKeyyWidget(
+                                ctx: widget.ctx,
                                 model: key,
                                 onTap: () {
                                   _onKeyTap(
@@ -1640,18 +1691,20 @@ class _OSKKeyScreenState extends State<OSKKeyScreen> {
 }
 
 class OSKKey {
-  static Future<dynamic> show({
-    dynamic initialValue,
-    String? label,
-    OSKKeyInputType type = OSKKeyInputType.text,
-    String? hintText,
-  }) async {
+  static Future<dynamic> show(
+      {dynamic initialValue,
+      String? label,
+      OSKKeyInputType type = OSKKeyInputType.text,
+      String? hintText,
+      required BuildContext context}) async {
     return await Get.to(
+      transition: Transition.downToUp,
       () => OSKKeyScreen(
         hintText: hintText,
         initialValue: initialValue,
         inputType: type,
         label: label,
+        ctx: context,
       ),
     );
   }
