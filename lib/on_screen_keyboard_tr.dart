@@ -1322,7 +1322,7 @@ class OSKKeyController extends GetxController {
   final _layoutType = OSKType.lowerCase.obs;
   final _currentText = ''.obs;
   final _isShiftActive = false.obs;
-
+  Timer? _backspaceLongPressTimer;
   OSKKeyController({
     required this.inputType,
     required this.initialValue,
@@ -1336,6 +1336,10 @@ class OSKKeyController extends GetxController {
   String get currentText => _currentText.value;
   OSKType get layoutType => _layoutType.value;
   bool get isShiftActive => _isShiftActive.value;
+
+  void setText(String newText) {
+    _currentText.value = newText;
+  }
 
   List<OSKKeyModel> get filteredKeys {
     return OSKKeyData.keys.where((key) {
@@ -1377,9 +1381,32 @@ class OSKKeyController extends GetxController {
         break;
       case KeyType.backspace:
         if (currentText.isNotEmpty) {
-          _currentText.value = currentText.substring(0, currentText.length - 1);
+          if (_backspaceLongPressTimer == null) {
+            _currentText.value =
+                currentText.substring(0, currentText.length - 1);
+            update();
+          } else {
+            _backspaceLongPressTimer =
+                Timer.periodic(const Duration(milliseconds: 100), (t) {
+              _currentText.value =
+                  currentText.substring(0, currentText.length - 1);
+              update();
+              if (currentText.isEmpty) {
+                _backspaceLongPressTimer?.cancel();
+                _backspaceLongPressTimer = null;
+              }
+            });
+          }
+        } else {
+          _backspaceLongPressTimer?.cancel();
+          _backspaceLongPressTimer = null;
         }
         break;
+
+      /*   if (currentText.isNotEmpty) {
+          _currentText.value = currentText.substring(0, currentText.length - 1);
+        }
+        break; */
       case KeyType.shift:
         if (!numberOnly) {
           switch (_layoutType.value) {
@@ -1426,10 +1453,16 @@ class OSKKeyController extends GetxController {
 class OSKKeyyWidget extends StatelessWidget {
   final OSKKeyModel model;
   final GestureTapCallback? onTap;
+  final GestureTapCallback? onLongTap;
   final BuildContext ctx;
 
-  const OSKKeyyWidget(
-      {super.key, required this.model, this.onTap, required this.ctx});
+  const OSKKeyyWidget({
+    super.key,
+    required this.model,
+    this.onTap,
+    required this.ctx,
+    this.onLongTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -1550,7 +1583,7 @@ class _OSKKeyScreenState extends State<OSKKeyScreen> {
     super.initState();
     label = widget.label ?? "";
     hintText = widget.hintText ?? "";
-    type = OSKKeyInputType.text;
+    type = widget.inputType;
     initialValue = widget.initialValue ?? "";
     oskKeyController = Get.put(
         OSKKeyController(
@@ -1562,22 +1595,17 @@ class _OSKKeyScreenState extends State<OSKKeyScreen> {
         ),
         permanent: false);
 
-    runCursorOpacity();
+    cursorTimer = Timer.periodic(const Duration(milliseconds: 150), (t) {
+      setState(() {
+        cursorOpacity = cursorOpacity == 0 ? 1 : 0;
+      });
+    });
   }
 
   @override
   void dispose() {
     cursorTimer.cancel();
     super.dispose();
-  }
-
-  runCursorOpacity() {
-    cursorTimer = Timer.periodic(const Duration(milliseconds: 150), (t) {
-      if (!widget.ctx.mounted) return;
-      setState(() {
-        cursorOpacity = cursorOpacity == 0 ? 1 : 0;
-      });
-    });
   }
 
   void _onKeyTap(String value, KeyType type) {
@@ -1592,99 +1620,163 @@ class _OSKKeyScreenState extends State<OSKKeyScreen> {
   Widget build(BuildContext context) {
     return GetBuilder<OSKKeyController>(
       builder: (oskKeyController) {
-        return Scaffold(
-          backgroundColor: Theme.of(widget.ctx).canvasColor,
-          body: Stack(
+        var kb = Container(
+          padding: EdgeInsets.only(top: 20),
+          decoration: BoxDecoration(
+            color: Theme.of(widget.ctx).dividerColor.withOpacity(0.1),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
-                color: Colors.blueGrey.withOpacity(0.2),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(
-                    width: double.infinity,
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Text(
-                        label,
-                        style: TextStyle(
-                            fontSize: 22,
-                            color: Theme.of(widget.ctx)
-                                .textTheme
-                                .labelMedium!
-                                .color
-                                ?.withOpacity(0.60)),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: Row(
-                          children: [
-                            Text(
-                              oskKeyController.currentText.isEmpty
-                                  ? hintText
-                                  : oskKeyController.currentText,
-                              style: TextStyle(
-                                  fontSize: 22,
-                                  color: Theme.of(widget.ctx)
-                                      .textTheme
-                                      .labelMedium!
-                                      .color),
-                            ),
-                            AnimatedOpacity(
-                              opacity: cursorOpacity,
-                              duration: const Duration(milliseconds: 100),
-                              child: const Text(
-                                "|",
-                                style: TextStyle(
-                                    fontSize: 22, color: Colors.yellow),
-                              ),
-                            ),
-                            Expanded(child: Container())
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  for (int row = 0; row < 4; row++)
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        for (int column = 0; column <= 11; column++)
-                          ...oskKeyController
-                              .getKeys(
-                            row: row,
-                            column: column,
-                            layouttype: oskKeyController.layoutType,
-                          )
-                              .map(
-                            (key) {
-                              return OSKKeyyWidget(
-                                ctx: widget.ctx,
-                                model: key,
-                                onTap: () {
-                                  _onKeyTap(
-                                    key.value ?? "",
-                                    key.keyType,
-                                  );
-                                },
+              for (int row = 0; row < 4; row++)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    for (int column = 0; column <= 11; column++)
+                      ...oskKeyController
+                          .getKeys(
+                        row: row,
+                        column: column,
+                        layouttype: oskKeyController.layoutType,
+                      )
+                          .map(
+                        (key) {
+                          return OSKKeyyWidget(
+                            ctx: widget.ctx,
+                            model: key,
+                            onTap: () {
+                              _onKeyTap(
+                                key.value ?? "",
+                                key.keyType,
                               );
                             },
-                          ),
-                      ],
-                    ),
-                ],
+                            onLongTap: () {},
+                          );
+                        },
+                      ),
+                  ],
+                )
+            ],
+          ),
+        );
+
+        var labelWidget = Container(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          child: Text(
+            label,
+            style: TextStyle(
+                fontSize: 22,
+                color: Theme.of(widget.ctx)
+                    .textTheme
+                    .labelMedium!
+                    .color
+                    ?.withOpacity(0.60)),
+          ),
+        );
+
+        var valueWidget = Container(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Text(
+                oskKeyController.currentText.isEmpty
+                    ? hintText
+                    : oskKeyController.currentText,
+                style: TextStyle(
+                    fontSize: 22,
+                    color: Theme.of(widget.ctx).textTheme.labelMedium!.color),
+              ),
+              AnimatedOpacity(
+                opacity: cursorOpacity,
+                duration: const Duration(milliseconds: 100),
+                child: const Text(
+                  "|",
+                  style: TextStyle(fontSize: 22),
+                ),
               ),
             ],
           ),
         );
+
+        var suggestWidget = Container(
+          padding: EdgeInsets.all(12),
+          child: Text(type.name),
+        );
+
+        var btnClear = Container(
+          padding: EdgeInsets.all(12),
+          child: ElevatedButton(
+              onPressed: () {
+                oskKeyController.setText("");
+              },
+              child: const Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.close),
+                  Text("Clear"),
+                ],
+              )),
+        );
+
+        var btnSubmit = Container(
+          padding: EdgeInsets.all(12),
+          child: ElevatedButton(
+              onPressed: () {
+                Get.back(result: oskKeyController.currentText);
+              },
+              child: const Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.send,
+                  ),
+                  Text("Submit"),
+                ],
+              )),
+        );
+
+        return Scaffold(
+            backgroundColor: Theme.of(widget.ctx).canvasColor,
+            body: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 5,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            labelWidget,
+                            Expanded(child: valueWidget),
+                            suggestWidget,
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Expanded(
+                              child: btnClear,
+                            ),
+                            Expanded(
+                              child: btnSubmit,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                kb,
+              ],
+            ));
       },
     );
   }
