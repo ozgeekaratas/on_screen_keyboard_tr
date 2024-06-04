@@ -1575,7 +1575,7 @@ class _OSKKeyScreenState extends State<OSKKeyScreen> {
     cursorTimer = Timer.periodic(const Duration(milliseconds: 150), (t) {
       if (!widget.ctx.mounted) return;
       setState(() {
-        cursorOpacity = cursorOpacity == 0.8 ? 1 : 0;
+        cursorOpacity = cursorOpacity == 0 ? 1 : 0;
       });
     });
   }
