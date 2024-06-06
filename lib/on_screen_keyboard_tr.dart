@@ -413,16 +413,16 @@ class OSKKeyData {
       row: 0,
       column: 10,
       keyType: KeyType.character,
-      value: "!",
-      display: "!",
+      value: ",",
+      display: ",",
       layoutType: OSKType.numbers,
     ),
     OSKKeyModel(
       row: 0,
       column: 10,
       keyType: KeyType.character,
-      value: "!",
-      display: "!",
+      value: ",",
+      display: ",",
       layoutType: OSKType.specialCharacters,
     ),
 //#endregion
@@ -449,16 +449,16 @@ class OSKKeyData {
       row: 0,
       column: 11,
       keyType: KeyType.character,
-      value: "?",
-      display: "?",
+      value: ".",
+      display: ".",
       layoutType: OSKType.numbers,
     ),
     OSKKeyModel(
       row: 0,
       column: 11,
       keyType: KeyType.character,
-      value: "?",
-      display: "?",
+      value: ",",
+      display: ",",
       layoutType: OSKType.specialCharacters,
     ),
 //#endregion
@@ -1149,8 +1149,8 @@ class OSKKeyData {
       row: 2,
       column: 7,
       keyType: KeyType.character,
-      value: ",",
-      display: ",",
+      value: "?",
+      display: "?",
       layoutType: OSKType.numbers,
     ),
     OSKKeyModel(
@@ -1322,7 +1322,7 @@ class OSKKeyController extends GetxController {
   final _layoutType = OSKType.lowerCase.obs;
   final _currentText = ''.obs;
   final _isShiftActive = false.obs;
-  Timer? _backspaceLongPressTimer;
+
   OSKKeyController({
     required this.inputType,
     required this.initialValue,
@@ -1331,7 +1331,23 @@ class OSKKeyController extends GetxController {
     required this.numberOnly,
   }) {
     _currentText.value = initialValue;
+
+    _inputType.value = inputType;
+    if (numberOnly) {
+      _layoutType.value = OSKType.numbers;
+    }
+
+    update();
   }
+
+  @override
+  void onReady() {
+    updateKeyboardLayout();
+    super.onReady();
+  }
+
+  final Rx<OSKKeyInputType> _inputType = OSKKeyInputType.text.obs;
+  OSKKeyInputType get getInputType => _inputType.value;
 
   String get currentText => _currentText.value;
   OSKType get layoutType => _layoutType.value;
@@ -1339,6 +1355,21 @@ class OSKKeyController extends GetxController {
 
   void setText(String newText) {
     _currentText.value = newText;
+  }
+
+  void setLayoutType(OSKType type) {
+    _layoutType.value = type;
+  }
+
+  void updateKeyboardLayout() {
+    if (getInputType == OSKKeyInputType.name) {
+      if (_currentText.value.isEmpty || _currentText.value.endsWith(" ")) {
+        _layoutType.value = OSKType.upperCase;
+      } else {
+        _layoutType.value = OSKType.lowerCase;
+      }
+    }
+    update();
   }
 
   List<OSKKeyModel> get filteredKeys {
@@ -1381,33 +1412,14 @@ class OSKKeyController extends GetxController {
         break;
       case KeyType.backspace:
         if (currentText.isNotEmpty) {
-          if (_backspaceLongPressTimer == null) {
-            _currentText.value =
-                currentText.substring(0, currentText.length - 1);
-            update();
-          } else {
-            _backspaceLongPressTimer =
-                Timer.periodic(const Duration(milliseconds: 100), (t) {
-              _currentText.value =
-                  currentText.substring(0, currentText.length - 1);
-              update();
-              if (currentText.isEmpty) {
-                _backspaceLongPressTimer?.cancel();
-                _backspaceLongPressTimer = null;
-              }
-            });
-          }
-        } else {
-          _backspaceLongPressTimer?.cancel();
-          _backspaceLongPressTimer = null;
-        }
-        break;
-
-      /*   if (currentText.isNotEmpty) {
           _currentText.value = currentText.substring(0, currentText.length - 1);
         }
-        break; */
+        break;
       case KeyType.shift:
+        if (getInputType == OSKKeyInputType.name) {
+          _inputType.value = OSKKeyInputType.text;
+          update();
+        }
         if (!numberOnly) {
           switch (_layoutType.value) {
             case OSKType.lowerCase:
@@ -1447,6 +1459,8 @@ class OSKKeyController extends GetxController {
         break;
     }
     update();
+
+    updateKeyboardLayout();
   }
 }
 
@@ -1529,7 +1543,7 @@ class OSKKeyyWidget extends StatelessWidget {
     }
 
     return Card(
-      elevation: 3,
+      elevation: onTap == null ? 0 : 3,
       margin: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 6),
       child: InkWell(
         borderRadius: BorderRadius.circular(10),
@@ -1575,6 +1589,7 @@ class _OSKKeyScreenState extends State<OSKKeyScreen> {
   late String hintText;
   late OSKKeyInputType type;
   late dynamic initialValue;
+  final numberOnlyChars = "0123456789,.";
 
   double cursorOpacity = 0;
   late Timer cursorTimer;
@@ -1609,6 +1624,20 @@ class _OSKKeyScreenState extends State<OSKKeyScreen> {
   }
 
   void _onKeyTap(String value, KeyType type) {
+    if (oskKeyController.getInputType == OSKKeyInputType.number &&
+        !numberOnlyChars.contains(value)) {
+      return;
+    }
+
+    if (oskKeyController.getInputType == OSKKeyInputType.name) {
+      if (oskKeyController.currentText.isEmpty ||
+          oskKeyController.currentText.endsWith(" ")) {
+        value = value.toUpperCase();
+      } else {
+        value = value.toLowerCase();
+      }
+    }
+
     oskKeyController.receiveOnTap(type, value);
 
     if (value == 'subdirectory_arrow_left') {
@@ -1621,7 +1650,7 @@ class _OSKKeyScreenState extends State<OSKKeyScreen> {
     return GetBuilder<OSKKeyController>(
       builder: (oskKeyController) {
         var kb = Container(
-          padding: EdgeInsets.only(top: 20),
+          padding: const EdgeInsets.only(top: 20),
           decoration: BoxDecoration(
             color: Theme.of(widget.ctx).dividerColor.withOpacity(0.1),
           ),
@@ -1650,7 +1679,13 @@ class _OSKKeyScreenState extends State<OSKKeyScreen> {
                                 key.keyType,
                               );
                             },
-                            onLongTap: () {},
+
+                            /*       (type == OSKKeyInputType.number &&
+                                    numberOnlyChars.contains(key.value ?? ""))
+                                ? () {
+                                  
+                                  }
+                                : nul */
                           );
                         },
                       ),
@@ -1661,7 +1696,7 @@ class _OSKKeyScreenState extends State<OSKKeyScreen> {
         );
 
         var labelWidget = Container(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           child: Text(
             label,
             style: TextStyle(
@@ -1675,7 +1710,7 @@ class _OSKKeyScreenState extends State<OSKKeyScreen> {
         );
 
         var valueWidget = Container(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           child: Row(
             mainAxisSize: MainAxisSize.max,
             children: [
@@ -1700,16 +1735,19 @@ class _OSKKeyScreenState extends State<OSKKeyScreen> {
         );
 
         var suggestWidget = Container(
-          padding: EdgeInsets.all(12),
-          child: Text(type.name),
+          padding: const EdgeInsets.all(12),
+          child: Obx(() => Text(
+              "${oskKeyController.getInputType.name} ${oskKeyController.layoutType.name}")),
         );
 
         var btnClear = Container(
-          padding: EdgeInsets.all(12),
+          padding: const EdgeInsets.all(12),
           child: ElevatedButton(
-              onPressed: () {
-                oskKeyController.setText("");
-              },
+              onPressed: oskKeyController.currentText.isNotEmpty
+                  ? () {
+                      oskKeyController.setText("");
+                    }
+                  : null,
               child: const Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -1720,7 +1758,7 @@ class _OSKKeyScreenState extends State<OSKKeyScreen> {
         );
 
         var btnSubmit = Container(
-          padding: EdgeInsets.all(12),
+          padding: const EdgeInsets.all(12),
           child: ElevatedButton(
               onPressed: () {
                 Get.back(result: oskKeyController.currentText);
@@ -1786,7 +1824,7 @@ class OSKKey {
   static Future<dynamic> show(
       {dynamic initialValue,
       String? label,
-      OSKKeyInputType type = OSKKeyInputType.text,
+      OSKKeyInputType type = OSKKeyInputType.name,
       String? hintText,
       required BuildContext context}) async {
     return await Get.to(
